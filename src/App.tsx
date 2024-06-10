@@ -10,7 +10,7 @@ import {
   Text,
   Spinner,
 } from '@radix-ui/themes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ApiLhama from './lib/apiLhama';
 import { Code, dracula } from 'react-code-blocks';
 import { IoMdArrowRoundUp } from 'react-icons/io';
@@ -40,6 +40,12 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    if (prompt) {
+      handleConvert();
+    }
+  }, [typeConvertion]);
+
   return (
     <Container size="4">
       <Flex direction="column" justify="between" height={'100vh'} p="8px">
@@ -60,14 +66,18 @@ function App() {
           </Box>
         </ScrollArea>
 
-        <Box position="relative" p="8px">
-          <Flex p="8px">
+        <Box
+          position="relative"
+          style={{ display: 'flex', gap: '16px', flexDirection: 'column' }}
+        >
+          <Flex>
             <RadioCards.Root
               name="type"
               defaultValue={typeConvertion}
               columns={{ initial: '1', sm: '4' }}
             >
               <RadioCards.Item
+                style={{ cursor: 'pointer' }}
                 value="interface typescript"
                 onClick={(e) => {
                   setTypeConvertion(
@@ -80,6 +90,7 @@ function App() {
                 </Flex>
               </RadioCards.Item>
               <RadioCards.Item
+                style={{ cursor: 'pointer' }}
                 value="model do prisma"
                 onClick={(e) => {
                   setTypeConvertion(
@@ -92,6 +103,7 @@ function App() {
                 </Flex>
               </RadioCards.Item>
               <RadioCards.Item
+                style={{ cursor: 'pointer' }}
                 value="objeto"
                 onClick={(e) => {
                   setTypeConvertion(
@@ -104,6 +116,7 @@ function App() {
                 </Flex>
               </RadioCards.Item>
               <RadioCards.Item
+                style={{ cursor: 'pointer' }}
                 value="json"
                 onClick={(e) => {
                   setTypeConvertion(
@@ -122,12 +135,6 @@ function App() {
             value={prompt}
             size="3"
             onChange={(e) => setPrompt(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.currentTarget.blur();
-                handleConvert();
-              }
-            }}
           />
           <Button
             variant="solid"

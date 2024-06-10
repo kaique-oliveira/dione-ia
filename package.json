@@ -8,7 +8,8 @@
   "build": {
     "appId": "kaique.id",
     "mac": {
-      "category": "kaique.app.category.type"
+      "category": "kaique.app.category.type",
+      "icon": "./public/dione.icns"
     },
     "win": {}
   },
