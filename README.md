@@ -11,7 +11,7 @@ Demonstração:
 
 - Primeiramente, crie uma API Key no site do [Groq](https://console.groq.com/keys)
 
-- Adicione sua API Key em um arquivo .env na raiz do projeto.
+- Adicione sua API Key em um arquivo .env na raiz do projeto. Na raiz do projeto existe um arquivo exemplo chamado "example.env", utilize como base para criar o seu .env.
 
 - Instale as dependências do React:
 
