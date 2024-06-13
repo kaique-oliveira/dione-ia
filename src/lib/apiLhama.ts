@@ -16,12 +16,9 @@ class ApiLhama {
       messages: [
         {
           role: 'system',
-          content: 'me de respostas sem introdução.',
+          content: 'me de respostas sem introdução, apenas com código.',
         },
-        {
-          role: 'system',
-          content: 'se a resposta for um objeto json, formate como json.',
-        },
+
         {
           role: 'system',
           content:
@@ -30,7 +27,7 @@ class ApiLhama {
         {
           role: 'system',
           content:
-            'qualquer coisa que não seja parte do código, formate como comentário do javascript',
+            'qualquer coisa que não seja parte do código, formate como comentário usando // no inicio',
         },
 
         {

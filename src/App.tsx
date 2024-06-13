@@ -1,19 +1,20 @@
 import {
   Box,
-  Button,
   Container,
   Flex,
-  Heading,
   ScrollArea,
   TextArea,
   RadioCards,
   Text,
   Spinner,
+  IconButton,
 } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
 import ApiLhama from './lib/apiLhama';
 import { Code, dracula } from 'react-code-blocks';
-import { IoMdArrowRoundUp } from 'react-icons/io';
+import { FaArrowRight } from 'react-icons/fa6';
+import { FaRegCopy } from 'react-icons/fa6';
+import { useNotification } from '@lumus-ui/react';
 
 type TypeConvertionType =
   | 'interface typescript'
@@ -21,6 +22,8 @@ type TypeConvertionType =
   | 'objeto typescript'
   | 'json';
 function App() {
+  const notification = useNotification();
+
   const [prompt, setPrompt] = useState('');
   const [responseLhama, setResponseLhama] = useState('');
   const [loading, setLoading] = useState(false);
@@ -40,6 +43,17 @@ function App() {
     }
   }
 
+  async function copyCode() {
+    if (responseLhama) {
+      await navigator.clipboard.writeText(responseLhama);
+      notification.showNotification({
+        type: 'success',
+        timeout: 3000,
+        message: 'Código copiado para a área de transferência',
+      });
+    }
+  }
+
   useEffect(() => {
     if (prompt) {
       handleConvert();
@@ -48,27 +62,15 @@ function App() {
 
   return (
     <Container size="4">
-      <Flex direction="column" justify="between" height={'100vh'} p="8px">
-        <Heading size="4" mb="2" trim="start">
-          Dione
-        </Heading>
-        <ScrollArea type="always" scrollbars="vertical">
-          <Box p="2" pr="8">
-            <Flex direction="column" gap="4">
-              <Code
-                text={responseLhama}
-                language="typescript"
-                showLineNumbers={true}
-                wrapLongLines={true}
-                theme={dracula}
-              />
-            </Flex>
-          </Box>
-        </ScrollArea>
-
-        <Box
+      <Flex justify="between" height={'100vh'} gap="32px" p="8px">
+        <Flex
           position="relative"
-          style={{ display: 'flex', gap: '16px', flexDirection: 'column' }}
+          style={{
+            display: 'flex',
+            gap: '16px',
+            width: '80%',
+            flexDirection: 'column',
+          }}
         >
           <Flex>
             <RadioCards.Root
@@ -99,7 +101,7 @@ function App() {
                 }}
               >
                 <Flex direction="column" width="100%">
-                  <Text weight="bold">Model Prisma</Text>
+                  <Text weight="bold">Prisma</Text>
                 </Flex>
               </RadioCards.Item>
               <RadioCards.Item
@@ -133,25 +135,53 @@ function App() {
           <TextArea
             placeholder="O que deseja converter?"
             value={prompt}
-            size="3"
+            style={{ height: '100%' }}
             onChange={(e) => setPrompt(e.target.value)}
           />
-          <Button
+          <IconButton
             variant="solid"
-            size="3"
             style={{
               position: 'absolute',
-              bottom: 25,
-              right: 24,
-              height: '46px',
+              top: 72,
+              right: 8,
+              cursor: 'pointer',
             }}
             radius="full"
             onClick={handleConvert}
           >
             {loading && <Spinner />}
-            {!loading && <IoMdArrowRoundUp />}
-          </Button>
-        </Box>
+            {!loading && <FaArrowRight />}
+          </IconButton>
+        </Flex>
+
+        <ScrollArea
+          type="always"
+          scrollbars="vertical"
+          style={{ position: 'relative', width: '100%' }}
+        >
+          <IconButton
+            style={{
+              position: 'absolute',
+              top: '16px',
+              right: '56px',
+              cursor: 'pointer',
+            }}
+            onClick={copyCode}
+          >
+            <FaRegCopy />
+          </IconButton>
+          <Box p="2" pr="8">
+            <Flex direction="column" gap="4">
+              <Code
+                text={responseLhama}
+                language="typescript"
+                showLineNumbers={true}
+                wrapLongLines={true}
+                theme={dracula}
+              />
+            </Flex>
+          </Box>
+        </ScrollArea>
       </Flex>
     </Container>
   );

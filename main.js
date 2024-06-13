@@ -1,22 +1,27 @@
 import { app, BrowserWindow, screen } from 'electron';
 
-let mainWindow;
-
-app.whenReady().then(() => {
+const createWindow = () => {
   const primaryDisplay = screen.getPrimaryDisplay();
   const { width, height } = primaryDisplay.workAreaSize;
 
-  // Cria a janela principal
-  mainWindow = new BrowserWindow({
+  const win = new BrowserWindow({
     width: width,
     height: height,
+
+    // resizable: false,
+    // titleBarStyle: 'hidden',
+    // titleBarOverlay: {
+    //   color: '#2f3241',
+    //   symbolColor: '#74b1be',
+    // },
+    // frame: true,
+    // transparent: true,
   });
 
-  mainWindow.loadURL('http://localhost:5173');
-});
+  // win.setBackgroundColor('#00000000');
+  win.loadURL('http://localhost:2425');
+};
 
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    mainWindow.createWindow();
-  }
+app.whenReady().then(() => {
+  createWindow();
 });
