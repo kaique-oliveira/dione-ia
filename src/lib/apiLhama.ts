@@ -3,7 +3,7 @@ import Groq from 'groq-sdk';
 class ApiLhama {
   async send(prompt: string) {
     const groq = new Groq({
-      apiKey: import.meta.env.VITE_API_KEY_GROQ as string,
+      apiKey: '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',
       dangerouslyAllowBrowser: true,
     });
 
